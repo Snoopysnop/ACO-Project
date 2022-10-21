@@ -12,7 +12,7 @@ public class ConfiguratorImpl implements Configurator{
 	private Set<PartType> partTypes;
 
 	private ConfigurationImpl config;
-	private CompatibilityCheckerImpl compaCheck;
+	private CompatibilityManagerImpl manager;
 	
 	Set<PartType> incompatibilities ;
 	Set<PartType> requirements ;
@@ -20,8 +20,8 @@ public class ConfiguratorImpl implements Configurator{
 	public ConfiguratorImpl(Set<Category> categories,Set<PartType> partTypes) {
 		this.categories=categories;
 		this.partTypes=partTypes;
-		config = new ConfigurationImpl();
-		compaCheck = new CompatibilityCheckerImpl(incompatibilities,requirements);
+		manager = new CompatibilityManagerImpl();
+		config = new ConfigurationImpl(manager);
 		
 		
 	}
@@ -42,9 +42,10 @@ public class ConfiguratorImpl implements Configurator{
     	return config;
     }
 
-    public CompatibilityCheckerImpl getCompatibilityChecker() {
-    	return compaCheck;
-    }
+	@Override
+	public CompatibilityChecker getCompatibilityChecker() {
+			return manager;
+	}
     
     
 }
