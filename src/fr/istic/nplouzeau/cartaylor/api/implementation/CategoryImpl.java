@@ -18,5 +18,5 @@ public class CategoryImpl implements Category{
     public String getName() {
     	return this.category;
     }
-    
+   
 }

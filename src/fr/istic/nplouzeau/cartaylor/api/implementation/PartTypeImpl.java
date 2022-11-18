@@ -12,8 +12,8 @@ public class PartTypeImpl implements PartType{
 		this.name=name;
 		this.category=category;
 	}
-	
-	
+
+
 	public String getName() {
 		return this.name;
 	}

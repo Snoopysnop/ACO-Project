@@ -21,7 +21,7 @@ public class CompatibilityManagerImpl implements CompatibilityManager{
 	public Set<PartType> getRequirements(PartType reference){
 		return Collections.unmodifiableSet(tableReq.get(reference));
 	}
-
+	
 	public void addIncompatibilities(PartType reference, Set<PartType> target) {
 			tableInc.put(reference,target);
 		}

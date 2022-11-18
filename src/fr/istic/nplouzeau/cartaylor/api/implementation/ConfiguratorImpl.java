@@ -22,8 +22,8 @@ public class ConfiguratorImpl implements Configurator{
 		this.partTypes=partTypes;
 		manager = new CompatibilityManagerImpl();
 		config = new ConfigurationImpl(manager);
-		
-		
+	
+	
 	}
 	
     public Set<Category> getCategories() {
