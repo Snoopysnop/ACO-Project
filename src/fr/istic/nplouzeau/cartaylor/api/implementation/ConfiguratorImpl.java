@@ -13,10 +13,7 @@ public class ConfiguratorImpl implements Configurator{
 
 	private ConfigurationImpl config;
 	private CompatibilityManagerImpl manager;
-	
-	Set<PartType> incompatibilities ;
-	Set<PartType> requirements ;
-	
+		
 	public ConfiguratorImpl(Set<Category> categories,Set<PartType> partTypes) {
 		this.categories=categories;
 		this.partTypes=partTypes;

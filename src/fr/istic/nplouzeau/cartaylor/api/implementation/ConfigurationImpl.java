@@ -39,10 +39,7 @@ public class ConfigurationImpl implements Configuration {
     				}
     			}
     		}
-    		
-    		
     	}
-    	
     	return true;
     }
 
@@ -84,20 +81,25 @@ public class ConfigurationImpl implements Configuration {
     	
     }
 
-    public PartType getSelectionForCategory(Category category) {//return la piece associe a la category donnee en parametre
+    public PartType getSelectionForCategory(Category category) {//return la piece associee a la category donnee en parametre
+    	for(PartType piece: config) {
+    		if(piece.getCategory().getName().equals(category)) return piece;
+    	}
     	return null;
     }
 
     public void unselectPartType(Category categoryToClear) {
-    	for(PartType piece: config) {
+    	Set<PartType> configRes = config;
+    	for(PartType piece: configRes) {
     		if (piece.getCategory().equals(categoryToClear)){
-    			boolean b = config.remove(piece);
+    			configRes.remove(piece);
     		}
     	}
+    	config=configRes;
     }
 
     public void clear() {//enlever toutes les pieces de la config
-    	
+    	config = new HashSet<PartType>();
     }
 
 }

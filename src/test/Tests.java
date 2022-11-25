@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 
 public class Tests {
 
-	private ConfiguratorImpl configurator;
+	ConfiguratorImpl configurator;
 	Set<Category> Categories = new HashSet<Category>();
 	Set<PartType> PartTypes = new HashSet<PartType>();
 	
