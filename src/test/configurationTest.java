@@ -1,6 +1,8 @@
 package test;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,9 +22,21 @@ public class configurationTest {
 	CompatibilityChecker checker;
 	CompatibilityManager manager;
 	
-	
 	Set<PartType> incompatibilities;
+	
+	Set<PartType> incompatibilitiesTA5;
+	Set<PartType> incompatibilitiesTSF7;
+	Set<PartType> incompatibilitiesXC;
+	Set<PartType> incompatibilitiesXM;
+	Set<PartType> incompatibilitiesXS;
+	Set<PartType> incompatibilitiesIS;
+	
 	Set<PartType> requirements;
+	
+	Set<PartType> requirementsEH120;
+	Set<PartType> requirementsTC120;
+	Set<PartType> requirementsXS;
+	Set<PartType> requirementsIS;
 	
 	CategoryImpl categoryEngine;
 	CategoryImpl categoryTransmission;
@@ -92,11 +106,52 @@ public class configurationTest {
 		partTypeInteriorIH = new PartTypeImpl("IH",categoryInterior);
 		partTypeInteriorIS = new PartTypeImpl("IS",categoryInterior);
 		
+		incompatibilitiesTA5 = new HashSet<PartType>();
+		incompatibilitiesTSF7 = new HashSet<PartType>();
+		incompatibilitiesXC = new HashSet<PartType>();
+		incompatibilitiesXM = new HashSet<PartType>();
+		incompatibilitiesXS = new HashSet<PartType>();
+		incompatibilitiesIS = new HashSet<PartType>();
+		
 		incompatibilities = new HashSet<PartType>();
 		requirements = new HashSet<PartType>();
-		 
-//		partTypeEngineEG100
-//		manager.addIncompatibilities(partTypeExteriorXS, );
+		
+		
+		
+		requirementsEH120 = new HashSet<PartType>();
+		requirementsTC120 = new HashSet<PartType>();
+		requirementsXS = new HashSet<PartType>();
+		requirementsIS = new HashSet<PartType>();
+		
+//		manager.addRequirements(requirementsEH120, partTypeTransmissionTC120);
+//		manager.addRequirements(requirementsTC120, partTypeEngineEH120);
+//		manager.addRequirements(requirementsXS, partTypeInteriorIS);
+//		manager.addRequirements(requirementsIS, partTypeExteriorXS);
+		
+		//use : Map<PartType,Set<PartType>> tableInc = new HashMap<PartType,Set<PartType>>();
+		// Map<PartType,Set<PartType>> tableReq = new HashMap<PartType,Set<PartType>>();
+		
+		//attention, fail car on doit add dans tableInc et tableReq
+		// on a juste a creer des Set<PartType> pour chaque incompatibilities
+		
+		// ex : incompatibilitiesTest = new HashSet<PartType>();
+		// ( si possible add) incompatibilitiesTest.add  (PartType1); incompatibilitiesTest.add  (PartType2); ... ect
+
+		
+		manager.addIncompatibilities(partTypeEngineEG100,incompatibilitiesTA5);
+		
+		manager.addIncompatibilities(partTypeEngineEG100,incompatibilitiesTSF7);
+		manager.addIncompatibilities(partTypeEngineEG133,incompatibilitiesTSF7);
+		manager.addIncompatibilities(partTypeEngineED110,incompatibilitiesTSF7);
+		
+		manager.addIncompatibilities(partTypeEngineEG210,incompatibilitiesXC);
+		
+		manager.addIncompatibilities(partTypeEngineEG100,incompatibilitiesXM);
+		
+		manager.addIncompatibilities(partTypeEngineEG100,incompatibilitiesXS);
+		
+		manager.addIncompatibilities(partTypeEngineEG100,incompatibilitiesIS);
+		manager.addIncompatibilities(partTypeTransmissionTM5,incompatibilitiesIS);
 	}
 	
 	@Test
