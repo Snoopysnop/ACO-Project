@@ -7,6 +7,9 @@ package fr.istic.nplouzeau.cartaylor.api;
  */
 public interface Category {
 
+	/**
+	 * @return name of the category
+	 */
     String getName();
 
 }

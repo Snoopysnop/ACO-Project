@@ -4,8 +4,18 @@ import java.util.Set;
 
 public interface CompatibilityChecker {
 
+	/**
+	 * 
+	 * @param reference a PartType 
+	 * @return the set of PartType which are incompatible with reference
+	 */
     Set<PartType> getIncompatibilities(PartType reference);
 
+    /**
+	 * 
+	 * @param reference a PartType 
+	 * @return the set of PartType which are to pair up with reference
+	 */
     Set<PartType> getRequirements(PartType reference);
 
 }
