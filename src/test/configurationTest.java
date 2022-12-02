@@ -1,5 +1,6 @@
 package test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -8,8 +9,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
 import fr.istic.nplouzeau.cartaylor.api.*;
-import fr.istic.nplouzeau.cartaylor.api.implementation.CategoryImpl;
-import fr.istic.nplouzeau.cartaylor.api.implementation.PartTypeImpl;
+import fr.istic.nplouzeau.cartaylor.api.implementation.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -17,69 +17,43 @@ import org.junit.jupiter.api.Test;
 
 
 public class configurationTest {
-
-	Set<PartType> config;
+	ConfiguratorImpl configurator;
+	
+	Set<Category> categories;
+	Set<PartType> partTypes;
+	
 	CompatibilityChecker checker;
 	CompatibilityManager manager;
 	
-	Set<PartType> incompatibilities;
+	Set<PartType> incompatibilitiesA, incompatibilitiesB, incompatibilitiesC, incompatibilitiesD;	
+	Set<PartType> requirementTC120, requirementEH120, requirementIS, requirementXS;
 	
-	Set<PartType> incompatibilitiesTA5;
-	Set<PartType> incompatibilitiesTSF7;
-	Set<PartType> incompatibilitiesXC;
-	Set<PartType> incompatibilitiesXM;
-	Set<PartType> incompatibilitiesXS;
-	Set<PartType> incompatibilitiesIS;
+	CategoryImpl categoryEngine,categoryTransmission, categoryExterior, categoryInterior;
+
 	
-	Set<PartType> requirements;
+	PartTypeImpl partTypeEngineEG100, partTypeEngineEG133, partTypeEngineEG210, partTypeEngineED110, partTypeEngineED180, partTypeEngineEH120 ;
+	PartTypeImpl partTypeTransmissionTM5, partTypeTransmissionTM6, partTypeTransmissionTA5, partTypeTransmissionTS6, partTypeTransmissionTSF7, partTypeTransmissionTC120; 
+  	PartTypeImpl partTypeExteriorXC, partTypeExteriorXM, partTypeExteriorXS;
+  	PartTypeImpl partTypeInteriorIN, partTypeInteriorIH, partTypeInteriorIS; 
 	
-	Set<PartType> requirementsEH120;
-	Set<PartType> requirementsTC120;
-	Set<PartType> requirementsXS;
-	Set<PartType> requirementsIS;
-	
-	CategoryImpl categoryEngine;
-	CategoryImpl categoryTransmission;
-	CategoryImpl categoryExterior;
-	CategoryImpl categoryInterior;
-	
-	PartTypeImpl partTypeEngineEG100;
-	PartTypeImpl partTypeEngineEG133;
-	PartTypeImpl partTypeEngineEG210;
-	PartTypeImpl partTypeEngineED110;
-	PartTypeImpl partTypeEngineED180;
-	PartTypeImpl partTypeEngineEH120;
-	
-	
-	
-	PartTypeImpl partTypeTransmissionTM5; 
-	PartTypeImpl partTypeTransmissionTM6; 
-	PartTypeImpl partTypeTransmissionTA5; 
-	PartTypeImpl partTypeTransmissionTS6; 
-	PartTypeImpl partTypeTransmissionTS7; 
-	PartTypeImpl partTypeTransmissionTC120; 
-	
-	
-	
-  	PartTypeImpl partTypeExteriorXC;
-  	PartTypeImpl partTypeExteriorXM;
-  	PartTypeImpl partTypeExteriorXS;
-  	
-  	
-  	PartTypeImpl partTypeInteriorIN; 
-  	PartTypeImpl partTypeInteriorIH; 
-  	PartTypeImpl partTypeInteriorIS; 
-	
-  	
   	
 	@BeforeEach
 	public void setUp() {
-		config= new HashSet<PartType>();
-	  	
+		
+		categories = new HashSet<Category>();
+		partTypes = new HashSet<PartType>();
+		
+		
 		categoryEngine = new CategoryImpl("Engine");
 		categoryTransmission = new CategoryImpl("Transmission");
 		categoryExterior = new CategoryImpl("Exterior");
 		categoryInterior = new CategoryImpl("Interior");
+		
+		
+		categories.add(categoryEngine);
+		categories.add(categoryTransmission);
+		categories.add(categoryExterior);
+		categories.add(categoryInterior);
 		
 		
 		partTypeEngineEG100 = new PartTypeImpl("EG100 ",categoryEngine);
@@ -93,7 +67,7 @@ public class configurationTest {
 		partTypeTransmissionTM6 = new PartTypeImpl("TM6",categoryTransmission);
 		partTypeTransmissionTA5 = new PartTypeImpl("TA5",categoryTransmission);
 		partTypeTransmissionTS6 = new PartTypeImpl("TS6",categoryTransmission);
-		partTypeTransmissionTS7 = new PartTypeImpl("TS7",categoryTransmission);
+		partTypeTransmissionTSF7 = new PartTypeImpl("TS7",categoryTransmission);
 		partTypeTransmissionTC120 = new PartTypeImpl("TC120",categoryTransmission);
 		
 		
@@ -106,64 +80,97 @@ public class configurationTest {
 		partTypeInteriorIH = new PartTypeImpl("IH",categoryInterior);
 		partTypeInteriorIS = new PartTypeImpl("IS",categoryInterior);
 		
-		incompatibilitiesTA5 = new HashSet<PartType>();
-		incompatibilitiesTSF7 = new HashSet<PartType>();
-		incompatibilitiesXC = new HashSet<PartType>();
-		incompatibilitiesXM = new HashSet<PartType>();
-		incompatibilitiesXS = new HashSet<PartType>();
-		incompatibilitiesIS = new HashSet<PartType>();
+		partTypes.add(partTypeEngineEG100);
+		partTypes.add(partTypeEngineEG133);
+		partTypes.add(partTypeEngineEG210);
+		partTypes.add(partTypeEngineED110);
+		partTypes.add(partTypeEngineED180);
+		partTypes.add(partTypeEngineEH120);
 		
-		incompatibilities = new HashSet<PartType>();
-		requirements = new HashSet<PartType>();
+		partTypes.add(partTypeTransmissionTM5);
+		partTypes.add(partTypeTransmissionTM6);
+		partTypes.add(partTypeTransmissionTA5);
+		partTypes.add(partTypeTransmissionTS6);
+		partTypes.add(partTypeTransmissionTSF7);
+		partTypes.add(partTypeTransmissionTC120);
+		
+		partTypes.add(partTypeExteriorXC);
+		partTypes.add(partTypeExteriorXM);
+		partTypes.add(partTypeExteriorXS);
+		
+		partTypes.add(partTypeInteriorIN);
+		partTypes.add(partTypeInteriorIH);
+		partTypes.add(partTypeInteriorIS);
 		
 		
 		
-		requirementsEH120 = new HashSet<PartType>();
-		requirementsTC120 = new HashSet<PartType>();
-		requirementsXS = new HashSet<PartType>();
-		requirementsIS = new HashSet<PartType>();
+		configurator = new ConfiguratorImpl(categories,partTypes);
 		
-//		manager.addRequirements(requirementsEH120, partTypeTransmissionTC120);
-//		manager.addRequirements(requirementsTC120, partTypeEngineEH120);
-//		manager.addRequirements(requirementsXS, partTypeInteriorIS);
-//		manager.addRequirements(requirementsIS, partTypeExteriorXS);
 		
-		//use : Map<PartType,Set<PartType>> tableInc = new HashMap<PartType,Set<PartType>>();
-		// Map<PartType,Set<PartType>> tableReq = new HashMap<PartType,Set<PartType>>();
 		
-		//attention, fail car on doit add dans tableInc et tableReq
-		// on a juste a creer des Set<PartType> pour chaque incompatibilities
+		/* INCOMPATIBILITIES & REQUIREMENT */
 		
-		// ex : incompatibilitiesTest = new HashSet<PartType>();
-		// ( si possible add) incompatibilitiesTest.add  (PartType1); incompatibilitiesTest.add  (PartType2); ... ect
-
 		
-		manager.addIncompatibilities(partTypeEngineEG100,incompatibilitiesTA5);
 		
-		manager.addIncompatibilities(partTypeEngineEG100,incompatibilitiesTSF7);
-		manager.addIncompatibilities(partTypeEngineEG133,incompatibilitiesTSF7);
-		manager.addIncompatibilities(partTypeEngineED110,incompatibilitiesTSF7);
 		
-		manager.addIncompatibilities(partTypeEngineEG210,incompatibilitiesXC);
+		incompatibilitiesA = new HashSet<PartType>();
+		incompatibilitiesA.add(partTypeEngineEG100);
 		
-		manager.addIncompatibilities(partTypeEngineEG100,incompatibilitiesXM);
+		incompatibilitiesB = new HashSet<PartType>();
+		incompatibilitiesB.add(partTypeEngineEG100);
+		incompatibilitiesB.add(partTypeEngineEG133);
+		incompatibilitiesB.add(partTypeEngineED110);
 		
-		manager.addIncompatibilities(partTypeEngineEG100,incompatibilitiesXS);
+		incompatibilitiesC = new HashSet<PartType>();
+		incompatibilitiesC.add(partTypeEngineEG210);
 		
-		manager.addIncompatibilities(partTypeEngineEG100,incompatibilitiesIS);
-		manager.addIncompatibilities(partTypeTransmissionTM5,incompatibilitiesIS);
+		incompatibilitiesD = new HashSet<PartType>();
+		incompatibilitiesD.add(partTypeEngineEG100);
+		incompatibilitiesD.add(partTypeTransmissionTM5);
+		
+		
+		manager.addIncompatibilities(partTypeTransmissionTA5,incompatibilitiesA);
+		manager.addIncompatibilities(partTypeTransmissionTSF7,incompatibilitiesB);
+		manager.addIncompatibilities(partTypeExteriorXC,incompatibilitiesC);
+		manager.addIncompatibilities(partTypeExteriorXM,incompatibilitiesA);
+		manager.addIncompatibilities(partTypeExteriorXS,incompatibilitiesA);
+		manager.addIncompatibilities(partTypeInteriorIS,incompatibilitiesD);
+		
+		
+		
+		requirementTC120 = new HashSet<PartType>();
+		requirementTC120.add(partTypeTransmissionTC120);
+	
+		requirementEH120 = new HashSet<PartType>();
+		requirementEH120.add(partTypeEngineEH120);
+		
+		requirementIS = new HashSet<PartType>();
+		requirementIS.add(partTypeInteriorIS);
+		
+		requirementXS = new HashSet<PartType>();
+		requirementXS.add(partTypeExteriorXS);
+		
+		manager.addRequirements(partTypeEngineEH120,requirementTC120);
+		manager.addRequirements(partTypeTransmissionTC120,requirementEH120);
+		manager.addRequirements(partTypeExteriorXC,requirementIS);
+		manager.addRequirements(partTypeInteriorIS,requirementXS);
+			
+		
+		
+		
 	}
 	
 	@Test
 	public void isValid1 () {
 	  	
 	  	
-		config.add(partTypeEngineED180);
-		config.add(partTypeTransmissionTM6);
-		config.add(partTypeExteriorXM);
-		config.add(partTypeInteriorIN);
+		configurator.getConfiguration().addConfig(partTypeEngineED180);
+		configurator.getConfiguration().addConfig(partTypeTransmissionTM6);
+		configurator.getConfiguration().addConfig(partTypeExteriorXM);
+		configurator.getConfiguration().addConfig(partTypeInteriorIN);
 		
-		
+
+		assertFalse(configurator.getConfiguration().isValid());
 		
 		
 	}
@@ -198,10 +205,4 @@ public class configurationTest {
 	public void clear1 () {
 		
 	}
-	
-	
-	
-	
-	
-	
 }
