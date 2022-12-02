@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-
-import com.sun.xml.internal.ws.api.pipe.Engine;
-
 import fr.istic.nplouzeau.cartaylor.api.*;
 
 
@@ -18,8 +15,9 @@ public class ConfigurationImpl implements Configuration {
 	
 	private CompatibilityChecker checker;
 	
-	public ConfigurationImpl(CompatibilityChecker checker) {
+	public ConfigurationImpl(CompatibilityChecker checker, Set<PartType> config) {
 		this.checker=checker;
+		this.config=config;
 	}
     public boolean isValid() {
     	for(PartType piece: config) {
@@ -83,7 +81,7 @@ public class ConfigurationImpl implements Configuration {
 
     public PartType getSelectionForCategory(Category category) {//return la piece associee a la category donnee en parametre
     	for(PartType piece: config) {
-    		if(piece.getCategory().getName().equals(category)) return piece;
+    		if(piece.getCategory().getName().equals(category.getName())) return piece;
     	}
     	return null;
     }
@@ -100,6 +98,11 @@ public class ConfigurationImpl implements Configuration {
 
     public void clear() {//enlever toutes les pieces de la config
     	config = new HashSet<PartType>();
+    	//config.clear();
+    }
+    
+    public void addConfig(PartType p) {
+    	config.add(p);
     }
 
 }
