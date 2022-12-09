@@ -15,9 +15,8 @@ public class ConfigurationImpl implements Configuration {
 	
 	private CompatibilityChecker checker;
 	
-	public ConfigurationImpl(CompatibilityChecker checker, Set<PartType> config) {
+	public ConfigurationImpl(CompatibilityChecker checker) {
 		this.checker=checker;
-		this.config=config;
 	}
     public boolean isValid() {
     	for(PartType piece: config) {
@@ -100,9 +99,4 @@ public class ConfigurationImpl implements Configuration {
     	config = new HashSet<PartType>();
     	//config.clear();
     }
-    
-    public void addConfig(PartType p) {
-    	config.add(p);
-    }
-
 }

@@ -17,7 +17,10 @@ import org.junit.jupiter.api.Test;
 
 
 public class configurationTest {
+	
 	ConfiguratorImpl configurator;
+	
+	ConfigurationImpl config;
 	
 	Set<Category> categories;
 	Set<PartType> partTypes;
@@ -39,6 +42,8 @@ public class configurationTest {
   	
 	@BeforeEach
 	public void setUp() {
+		config = new ConfigurationImpl(checker);
+		
 		
 		categories = new HashSet<Category>();
 		partTypes = new HashSet<PartType>();
@@ -160,20 +165,28 @@ public class configurationTest {
 		
 	}
 	
+	
+	@Test
+	public void selectPart1 () {
+		config.selectPart(partTypeEngineED180);
+		Set<PartType> configTest = new HashSet<PartType>();
+		configTest.add(partTypeEngineED180);
+		assertEquals(config.getSelectedParts(),configTest);
+	}
+	
+	
 	@Test
 	public void isValid1 () {
-	  	
-	  	
-		configurator.getConfiguration().addConfig(partTypeEngineED180);
-		configurator.getConfiguration().addConfig(partTypeTransmissionTM6);
-		configurator.getConfiguration().addConfig(partTypeExteriorXM);
-		configurator.getConfiguration().addConfig(partTypeInteriorIN);
 		
+		config.selectPart(partTypeEngineED180);
+		config.selectPart(partTypeTransmissionTM6);
+		config.selectPart(partTypeExteriorXM);
+		config.selectPart(partTypeInteriorIN);
 
-		assertFalse(configurator.getConfiguration().isValid());
-		
-		
+		assertEquals(config.isValid(),true);
 	}
+	
+	
 	
 	
 	@Test
@@ -186,10 +199,6 @@ public class configurationTest {
 		
 	}
 	
-	@Test
-	public void selectPart1 () {
-		
-	}
 	
 	@Test
 	public void getSelectionForCategory1 () {
