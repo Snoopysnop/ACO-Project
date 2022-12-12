@@ -14,13 +14,11 @@ public class ConfiguratorImpl implements Configurator{
 	private ConfigurationImpl config;
 	private CompatibilityManagerImpl manager;
 		
-	public ConfiguratorImpl(Set<Category> categories,Set<PartType> partTypes) {
+	public ConfiguratorImpl(Set<Category> categories,Set<PartType> partTypes, CompatibilityManagerImpl manager ) {
 		this.categories=categories;
 		this.partTypes=partTypes;
-		manager = new CompatibilityManagerImpl();
-		config = new ConfigurationImpl(manager);
-	
-	
+		this.manager=manager;
+		config = new ConfigurationImpl(this);
 	}
 	
     public Set<Category> getCategories() {
@@ -42,7 +40,5 @@ public class ConfiguratorImpl implements Configurator{
 	@Override
 	public CompatibilityChecker getCompatibilityChecker() {
 			return manager;
-	}
-    
-    
+	} 
 }
