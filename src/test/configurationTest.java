@@ -1,6 +1,7 @@
 package test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -22,26 +23,29 @@ public class configurationTest {
 	Set<Category> categories;
 	Set<PartType> partTypes;
 	
-	CompatibilityChecker checker;
-	CompatibilityManager manager;
+	CompatibilityManagerImpl manager;
+	ConfigurationImpl configuration;
 	
 	Set<PartType> incompatibilitiesA, incompatibilitiesB, incompatibilitiesC, incompatibilitiesD;	
 	Set<PartType> requirementTC120, requirementEH120, requirementIS, requirementXS;
 	
 	CategoryImpl categoryEngine,categoryTransmission, categoryExterior, categoryInterior;
 
-	
 	PartTypeImpl partTypeEngineEG100, partTypeEngineEG133, partTypeEngineEG210, partTypeEngineED110, partTypeEngineED180, partTypeEngineEH120 ;
 	PartTypeImpl partTypeTransmissionTM5, partTypeTransmissionTM6, partTypeTransmissionTA5, partTypeTransmissionTS6, partTypeTransmissionTSF7, partTypeTransmissionTC120; 
   	PartTypeImpl partTypeExteriorXC, partTypeExteriorXM, partTypeExteriorXS;
   	PartTypeImpl partTypeInteriorIN, partTypeInteriorIH, partTypeInteriorIS; 
 	
   	
+  	
+  	
 	@BeforeEach
 	public void setUp() {
 		
 		categories = new HashSet<Category>();
 		partTypes = new HashSet<PartType>();
+		
+		/* category */
 		
 		
 		categoryEngine = new CategoryImpl("Engine");
@@ -55,6 +59,7 @@ public class configurationTest {
 		categories.add(categoryExterior);
 		categories.add(categoryInterior);
 		
+		/* PartTypes */
 		
 		partTypeEngineEG100 = new PartTypeImpl("EG100 ",categoryEngine);
 		partTypeEngineEG133 = new PartTypeImpl("EG133",categoryEngine);
@@ -67,7 +72,7 @@ public class configurationTest {
 		partTypeTransmissionTM6 = new PartTypeImpl("TM6",categoryTransmission);
 		partTypeTransmissionTA5 = new PartTypeImpl("TA5",categoryTransmission);
 		partTypeTransmissionTS6 = new PartTypeImpl("TS6",categoryTransmission);
-		partTypeTransmissionTSF7 = new PartTypeImpl("TS7",categoryTransmission);
+		partTypeTransmissionTSF7 = new PartTypeImpl("TSF7",categoryTransmission);
 		partTypeTransmissionTC120 = new PartTypeImpl("TC120",categoryTransmission);
 		
 		
@@ -103,15 +108,12 @@ public class configurationTest {
 		partTypes.add(partTypeInteriorIS);
 		
 		
-		
-		configurator = new ConfiguratorImpl(categories,partTypes);
-		
-		
+
 		
 		/* INCOMPATIBILITIES & REQUIREMENT */
 		
 		
-		
+		manager = new CompatibilityManagerImpl();
 		
 		incompatibilitiesA = new HashSet<PartType>();
 		incompatibilitiesA.add(partTypeEngineEG100);
@@ -156,53 +158,107 @@ public class configurationTest {
 		manager.addRequirements(partTypeInteriorIS,requirementXS);
 			
 		
+		configurator = new ConfiguratorImpl(categories,partTypes,manager);
 		
-		
+		configuration = configurator.getConfiguration();
 	}
 	
 	@Test
-	public void isValid1 () {
-	  	
-	  	
-		configurator.getConfiguration().addConfig(partTypeEngineED180);
-		configurator.getConfiguration().addConfig(partTypeTransmissionTM6);
-		configurator.getConfiguration().addConfig(partTypeExteriorXM);
-		configurator.getConfiguration().addConfig(partTypeInteriorIN);
+	public void getSelectedEmpty () {	//on essaye de get un truc empty
 		
-
-		assertFalse(configurator.getConfiguration().isValid());
-		
-		
+		assertEquals(configuration.getSelectedParts(),new HashSet<PartType>());
 	}
-	
-	
 	@Test
-	public void isComplete1 () {
+	public void getSelectedParts () {	// get un set d'un element
+		Set<PartType> configTest = new HashSet<PartType>();
+		configTest.add(partTypeTransmissionTSF7);
 		
+		
+		configuration.selectPart(partTypeTransmissionTSF7);
+		
+		assertEquals(configuration.getSelectedParts(),configTest);
 	}
-	
 	@Test
-	public void getSelectedParts1 () {
-		
+	public void getSelectedPartsModif() {	//on essaye de modifier le get en lui ajoutant un element
+		assertThrows(UnsupportedOperationException.class, () -> configuration.getSelectedParts().add(partTypeEngineED180));
 	}
-	
 	@Test
-	public void selectPart1 () {
-		
+	public void getSelectionForCategory () {
+		//TODO
 	}
-	
-	@Test
-	public void getSelectionForCategory1 () {
-		
-	}
-	
 	@Test
 	public void unselectPartType1 () {
+		//TODO
+	}
+	@Test
+	public void clearWithElement () {
+		Set<PartType> configTest = new HashSet<PartType>();
+		configuration.selectPart(partTypeEngineEG100);
+		configuration.clear();
+		assertEquals(configuration.getSelectedParts(),configTest);
+	}
+	@Test
+	public void clearEmptyConfig () {
+		Set<PartType> configTest = new HashSet<PartType>();
+		configuration.clear();
+				 
+		assertEquals(configuration.getSelectedParts(), configTest);
+	}
+	@Test
+	public void isValidIncompatibilitiesFalse () {
 		
+		configuration.selectPart(partTypeEngineEG100);
+		configuration.selectPart(partTypeTransmissionTM6);
+		configuration.selectPart(partTypeExteriorXM);
+		configuration.selectPart(partTypeInteriorIN);
+		
+		
+		assertEquals(configuration.isValid(),false);
+	}
+	@Test
+	public void isValidIncompatibilitiesTrue () {
+	  	
+	  	
+		configuration.unselectPartType(categoryEngine);
+		configuration.selectPart(partTypeEngineED180);
+
+		assertEquals(configurator.getConfiguration().isValid(),true);
+		
+		
+	}
+	@Test
+	public void isValidRequirementTrue () {
+	//TODO
+	  	
+		configuration.unselectPartType(categoryEngine);
+		configuration.selectPart(partTypeEngineED180);
+
+		assertEquals(configurator.getConfiguration().isValid(),true);
+		
+		
+	}
+	@Test
+	public void isValidRequirementFalse () {
+	  	//TODO
+	  	
+		configuration.unselectPartType(categoryEngine);
+		configuration.selectPart(partTypeEngineED180);
+
+		assertEquals(configurator.getConfiguration().isValid(),true);
+		
+		
+	}
+	@Test
+	public void isComplete1 () {
+		//TODO
+		//isComplete()
 	}
 	
-	@Test
-	public void clear1 () {
-		
-	}
+	
+	
+	
+	
+	
+	
+	
 }
