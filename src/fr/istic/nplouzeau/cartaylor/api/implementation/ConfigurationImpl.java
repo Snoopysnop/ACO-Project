@@ -9,7 +9,7 @@ import fr.istic.nplouzeau.cartaylor.api.*;
 
 public class ConfigurationImpl implements Configuration {
 
-	private Set<PartType> config = new HashSet<PartType>();
+	private Set<Part> config = new HashSet<Part>();
 	
 	private ConfiguratorImpl configurator;
 	private  CompatibilityChecker checker;
@@ -19,10 +19,10 @@ public class ConfigurationImpl implements Configuration {
 	}
     public boolean isValid() {
     	checker=configurator.getCompatibilityChecker();
-    	for(PartType piece: config) {
+    	for(Part piece: config) {
     		Set<PartType> listIncompatibilities = checker.getIncompatibilities(piece);
     		if(!listIncompatibilities.isEmpty()){
-    			for(PartType p: config) {
+    			for(Part p: config) {
     				if(p!=piece) {
     					if(listIncompatibilities.contains(p))return false;
     				}	
@@ -47,12 +47,12 @@ public class ConfigurationImpl implements Configuration {
     	
     }
 
-    public Set<PartType> getSelectedParts(){
+    public Set<Part> getSelectedParts(){
     	return Collections.unmodifiableSet(config);
     	//return config;
     }
 
-    public void selectPart(PartType chosenPart) {
+    public void selectPart(Part chosenPart) {
     	if(!chosenPart.equals(null)) {
     		config.add(chosenPart);
     	}
@@ -60,16 +60,16 @@ public class ConfigurationImpl implements Configuration {
     	
     }
 
-    public PartType getSelectionForCategory(Category category) {//return la piece associee a la category donnee en parametre
-    	for(PartType piece: config) {
+    public Part getSelectionForCategory(Category category) {//return la piece associee a la category donnee en parametre
+    	for(Part piece: config) {
     		if(piece.getCategory().getName().equals(category.getName())) return piece;
     	}
     	return null;
     }
 
     public void unselectPartType(Category categoryToClear) {
-    	Set<PartType> configRes = config;
-    	for(PartType piece: configRes) {
+    	Set<Part> configRes = config;
+    	for(Part piece: configRes) {
     		if (piece.getCategory().equals(categoryToClear)){
     			configRes.remove(piece);
     		}
@@ -78,7 +78,7 @@ public class ConfigurationImpl implements Configuration {
     }
     @Override
     public void clear() {//enlever toutes les pieces de la config
-    	config = new HashSet<PartType>();
+    	config = new HashSet<Part>();
     	//config.clear();
     }
 }

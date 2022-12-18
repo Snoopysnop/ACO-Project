@@ -21,20 +21,20 @@ public interface Configuration {
      * getter which returns the actual configuration
      * @return the actual configuration
      */
-    Set<PartType> getSelectedParts();
+    Set<Part> getSelectedParts();
 
     /**
      * add a PartType to the actual configuration
      * @param chosenPart the partType to add
      */
-    void selectPart(PartType chosenPart);
+    void selectPart(Part chosenPart);
 
     /**
      * return a PartType of a certain category in the actual configuration
      * @param category a category
      * @return the PartType which belongs to the category category
      */
-    PartType getSelectionForCategory(Category category);
+    Part getSelectionForCategory(Category category);
 
     /**
      * remove a PartType of the actual configuration

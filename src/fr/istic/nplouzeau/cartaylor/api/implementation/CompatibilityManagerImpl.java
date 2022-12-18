@@ -16,7 +16,7 @@ public class CompatibilityManagerImpl implements CompatibilityManager {
 	public CompatibilityManagerImpl() {
 	}
 
-	public Set<PartType> getIncompatibilities(PartType reference){
+	public Set<PartType> getIncompatibilities(Part reference){
 
 		if(!reference.equals(null)) {
 			if(tableInc.containsKey(reference)) {
@@ -32,7 +32,7 @@ public class CompatibilityManagerImpl implements CompatibilityManager {
 		}
 	}
 
-	public Set<PartType> getRequirements(PartType reference){
+	public Set<PartType> getRequirements(Part reference){
 		
 		if(!reference.equals(null)) {
 			if(tableReq.containsKey(reference)) {
@@ -52,7 +52,7 @@ public class CompatibilityManagerImpl implements CompatibilityManager {
 		tableInc.put(reference,target);
 	}
 
-	public void removeIncompatibility(PartType reference, PartType target) {
+	public void removeIncompatibility(Part reference, PartType target) {
 		getIncompatibilities(reference).remove(target);
 	}
 
@@ -60,7 +60,7 @@ public class CompatibilityManagerImpl implements CompatibilityManager {
 		tableReq.put(reference,target);
 	}
 
-	public void removeRequirement(PartType reference, PartType target) {
+	public void removeRequirement(Part reference, PartType target) {
 		getRequirements(reference).remove(target);
 	}
 //	public void printSet() {
@@ -79,5 +79,17 @@ public class CompatibilityManagerImpl implements CompatibilityManager {
 		}
 		return res;
 	}
+
+@Override
+public void removeIncompatibility(PartType reference, PartType target) {
+	// TODO Auto-generated method stub
+	
+}
+
+@Override
+public void removeRequirement(PartType reference, PartType target) {
+	// TODO Auto-generated method stub
+	
+}
 	
 }
