@@ -2,6 +2,7 @@ package fr.istic.nplouzeau.cartaylor.api.implementation;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import fr.istic.nplouzeau.cartaylor.api.*;
 
@@ -60,9 +61,9 @@ public class ConfigurationImpl implements Configuration {
     	
     }
 
-    public Part getSelectionForCategory(Category category) {//return la piece associee a la category donnee en parametre
+    public Optional<Part> getSelectionForCategory(Category category) {//return la piece associee a la category donnee en parametre
     	for(Part piece: config) {
-    		if(piece.getCategory().getName().equals(category.getName())) return piece;
+    		if(piece.getCategory().getName().equals(category.getName())) return Optional.of(piece);
     	}
     	return null;
     }

@@ -1,6 +1,7 @@
 package fr.istic.nplouzeau.cartaylor.api;
 
 
+import java.util.Optional;
 import java.util.Set;
 
 public interface Configuration {
@@ -34,7 +35,7 @@ public interface Configuration {
      * @param category a category
      * @return the PartType which belongs to the category category
      */
-    Part getSelectionForCategory(Category category);
+    Optional<Part> getSelectionForCategory(Category category);
 
     /**
      * remove a PartType of the actual configuration
