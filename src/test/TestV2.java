@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import fr.istic.nplouzeau.cartaylor.api.*;
@@ -189,33 +190,25 @@ ConfiguratorImpl configurator;
 		
 		
 	}
-  	
-  	@Test
-  	public void mainTest() {
-		System.out.println(configuration.isValid());
-  		Set<Part> tp = configuration.getSelectedParts();
-		for(Part p:tp) {
-			System.out.println(p.getType().getName());
-			System.out.println(p.getProperty("price").get());
-		}
-		System.out.print("done");
-  	}
 	
 	@Test
+	@DisplayName("test sur le prix d'une configuration valide et complete puis le prix de la config apres avoir enleve une piece")
 	public void getPrice() {
 		double price = 2000.0;
 		assertEquals(configuration.getPrice(),price,0);
 		configuration.unselectPartType(categoryEngine);
-		price = 1000.0; //engine cost 1000.0
+		price = 1000.0; //engine cost 1000.0 -> 2000.0 - 1000.0 = 1000.0
 		assertEquals(configuration.getPrice(),price,0);
 	}
 	@Test
+	@DisplayName("isValid pour une configuration correcte")
 	public void isValid1() {
 		assertEquals(configuration.isValid(),true);
 	}
 	
 	
 	@Test
+	@DisplayName("isValid pour une configuration incorrecte : EG100 incompatible XM")
 	public void isValid2() {
 		configuration.clear();
 		
@@ -228,6 +221,7 @@ ConfiguratorImpl configurator;
 	}
 	
 	@Test
+	@DisplayName("isValid pour une configuration incorrecte : EH120 a besoin de TC120")
 	public void isValid3() {
 		configuration.clear();
 		
@@ -240,6 +234,7 @@ ConfiguratorImpl configurator;
 	}
 	
 	@Test
+	@DisplayName("isValid pour une configuration correcte : EH120 et TC120 ensemble")
 	public void isValid4() {
 		configuration.clear();
 		
@@ -253,17 +248,20 @@ ConfiguratorImpl configurator;
 	
 	
 	@Test
+	@DisplayName("print le fichier html pour pouvoir le tester directement en le mettant dans un fichier html et en l'affichant dans un navigateur")
 	public void printHtmlConfiguration() {
 		System.out.print(configuration.printHtmlConfiguration());
 	}
 	
 	@Test
+	@DisplayName("on verifie qu'on a bien la piece associee a la category")
 	public void getSelectionForCategory() {
 		String s = configuration.getSelectionForCategory(categoryEngine).get().getType().getName();
 		assertEquals(s,partTypeEngineEG100.getName());
 	}
 	
 	@Test
+	@DisplayName("test pour changer la couleur et check si la valeur est bien mis a jour")
   	public void changeColor() {
 		configuration.chooseColor("BLUE");
 		String color = configuration.getSelectionForCategory(categoryExterior).get().getProperty("color").get();

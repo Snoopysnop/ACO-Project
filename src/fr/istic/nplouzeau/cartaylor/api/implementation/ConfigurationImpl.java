@@ -64,18 +64,30 @@ public class ConfigurationImpl implements Configuration {
     }
 
     public void selectPart(PartType chosenPart) {
+
     	if(!chosenPart.equals(null)) {
-    		PartImpl p = chosenPart.newInstance();
-			p.setType(chosenPart);
-    		config.add(p);
+    		PartImpl part = chosenPart.newInstance();
+    		if(!getSelectionForCategory(chosenPart.getCategory()).isPresent()) {
+    			part.setType(chosenPart);
+
+    			config.add(part);
+    		}
+    		else {
+    			throw new IllegalArgumentException("Erreur, le partType voulant être ajouté à la config"
+    					+ " ne peut pas etre ajouté car un partType de la même categorie est déjà dans la configuration");
+    		}
     	}
+    	else {
+    		throw new IllegalArgumentException("Erreur, le partType voulant être ajouté à la config ne peut pas etre null");
+    	}
+
     }
 
     public Optional<Part> getSelectionForCategory(Category category) {//return la piece associee a la category donnee en parametre
     	for(Part piece: config) {
     		if(piece.getCategory().getName().equals(category.getName())) return Optional.of(piece);
     	}
-    	return null;
+    	return Optional.empty();
     }
 
     
