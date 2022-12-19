@@ -33,8 +33,7 @@ public class PartImpl implements Part {
 
 	private Map<String, Property> properties = new HashMap<>();
 
-	protected void addProperty(String name, Supplier<String> getter, Consumer<String> setter,
-			Set<String> possibleValues) {
+	protected void addProperty(String name, Supplier<String> getter, Consumer<String> setter, Set<String> possibleValues) {
 		properties.put(name, new Property(getter, setter, possibleValues));
 	}
 
@@ -74,13 +73,18 @@ public class PartImpl implements Part {
 
 	@Override
 	public Category getCategory() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.type.getCategory();
 	}
 
 	@Override
 	public PartType getType() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.type;
+	}
+
+	public void setType(PartType type) {
+		if(type == null) {
+			throw new IllegalArgumentException("Your PartType is null");
+		}
+		this.type = type;
 	}
 }

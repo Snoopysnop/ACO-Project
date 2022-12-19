@@ -1,5 +1,7 @@
 package fr.istic.nplouzeau.cartaylor.api;
 
+import fr.istic.nplouzeau.cartaylor.api.implementation.PartImpl;
+
 public interface PartType {
 
 	/**
@@ -11,4 +13,11 @@ public interface PartType {
 	 * @return Category of the PartType
 	 */
     Category getCategory();
+    
+    
+    /**
+     * create an instance of PartImpl for the actual PartType
+     * @return
+     */
+    public PartImpl newInstance();
 }

@@ -19,7 +19,9 @@ public class PartTypeImpl implements PartType {
 		this.classRef = classRef;
 		this.category = category;
 	}
+	
 	public PartImpl newInstance() {
+		
 		Constructor<? extends PartImpl> constructor;
 		try {
 			constructor = classRef.getConstructor();
@@ -33,10 +35,10 @@ public class PartTypeImpl implements PartType {
 
 
 	public String getName() {
-		return null;
+		return this.name;
 	}
 
-	public CategoryImpl getCategory() {
-		return null;
+	public Category getCategory() {
+		return this.category;
 	}
 }
