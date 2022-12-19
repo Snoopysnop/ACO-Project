@@ -14,7 +14,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 
-public class ConfigurationTest {
+public class ConfigurationImplTest {
 	ConfiguratorImpl configurator;
 	
 	Set<Category> categories;
@@ -187,7 +187,6 @@ public class ConfigurationTest {
 	@Test
 	@DisplayName("Test du selectPart en ajoutant un element null")
 	public void selectPart1() {
-		configuration.clear();
 		PartType partTypeNull = null;
 		assertThrows(IllegalArgumentException.class, () -> configuration.selectPart(partTypeNull));
 		
@@ -198,7 +197,7 @@ public class ConfigurationTest {
 		Set<PartType> configTest = new HashSet<PartType>();
 		configTest.add(partTypeTransmissionTC120);
 		configTest.add(partTypeEngineEG100);
-		configuration.clear();
+		
 		configuration.selectPart(partTypeEngineEG100);
 		configuration.selectPart(partTypeTransmissionTC120);
 		
@@ -236,14 +235,11 @@ public class ConfigurationTest {
 		Set<PartType> configTest = new HashSet<PartType>();
 		configTest.add(partTypeTransmissionTC120);
 		
-		configuration.clear();
 		
 		configuration.selectPart(partTypeEngineEG100);
 		configuration.selectPart(partTypeTransmissionTC120);
-		//configuration.selectPart(partTypeExteriorXC);
 		
 		configuration.unselectPartType(categoryEngine);
-		//configuration.unselectPartType(categoryTransmission);
 		
 		assertEquals(configTest,configuration.getSelectedParts());
 		
@@ -253,8 +249,6 @@ public class ConfigurationTest {
 	public void unselectPartType3 () {
 		Set<PartType> configTest = new HashSet<PartType>();
 		configTest.add(partTypeEngineEG100);
-		
-		configuration.clear();
 		
 		configuration.selectPart(partTypeEngineEG100);
 		configuration.unselectPartType(categoryTransmission);
@@ -270,7 +264,6 @@ public class ConfigurationTest {
 	@Test
 	@DisplayName("Test du getSelectionForCategory en essayant de get une category d'une piece existante dans la config")
 	public void getSelectionForCategory2 () {
-		configuration.clear();
 		
 		configuration.selectPart(partTypeEngineEG100);
 		configuration.selectPart(partTypeTransmissionTC120);
