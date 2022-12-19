@@ -25,10 +25,10 @@ public interface Configuration {
     Set<Part> getSelectedParts();
 
     /**
-     * add a PartType to the actual configuration
+     * add an instance of Part of the PartType to the actual configuration
      * @param chosenPart the partType to add
      */
-    void selectPart(Part chosenPart);
+    void selectPart(PartType chosenPart);
 
     /**
      * return a PartType of a certain category in the actual configuration
@@ -44,8 +44,25 @@ public interface Configuration {
     void unselectPartType(Category categoryToClear);
 
     /**
-     * remove all the selected PartType of the actual configuration
+     * remove all the Part of the actual configuration
      */
     void clear();
+    
+    /**
+     * gives the html file of the configuration
+     * @return the html file of the configuration as a String
+     */
+    String printHtmlConfiguration();
+    
+    /**
+     * gives the price of the whole configuration
+     * @return the price of the configuration
+     */
+    double getPrice();
 
+
+    /*
+     * apply the color
+     */
+    void chooseColor(String chosenColor);
 }
