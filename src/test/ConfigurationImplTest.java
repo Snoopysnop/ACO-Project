@@ -151,7 +151,7 @@ public class ConfigurationTest {
 		
 		manager.addRequirements(partTypeEngineEH120,requirementTC120);
 		manager.addRequirements(partTypeTransmissionTC120,requirementEH120);
-		manager.addRequirements(partTypeExteriorXC,requirementIS);
+		manager.addRequirements(partTypeExteriorXS,requirementIS);
 		manager.addRequirements(partTypeInteriorIS,requirementXS);
 			
 		
