@@ -31,15 +31,15 @@ public interface Configuration {
     void selectPart(PartType chosenPart);
 
     /**
-     * return a PartType of a certain category in the actual configuration
+     * return the Part of a certain category in the actual configuration
      * @param category a category
-     * @return the PartType which belongs to the category category
+     * @return the Part which belongs to the category category
      */
     Optional<Part> getSelectionForCategory(Category category);
 
     /**
-     * remove a PartType of the actual configuration
-     * @param chosenPart the partType to remove
+     * remove a Part of the actual configuration
+     * @param categoryToClear the category of the part you want to remove
      */
     void unselectPartType(Category categoryToClear);
 
@@ -62,7 +62,11 @@ public interface Configuration {
 
 
     /*
-     * apply the color
+     * set the color of the exterior part.
+     * If the color does not belong to the possible colors
+     * then throw IllegalArgumentException
+     * @param chosenColor the selected color
+     * @throws IllegalArgumentException  (see above)
      */
     void chooseColor(String chosenColor);
 }

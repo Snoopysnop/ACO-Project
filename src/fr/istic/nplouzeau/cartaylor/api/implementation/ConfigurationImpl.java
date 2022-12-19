@@ -1,5 +1,6 @@
 package fr.istic.nplouzeau.cartaylor.api.implementation;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
@@ -18,38 +19,38 @@ public class ConfigurationImpl implements Configuration {
 	public ConfigurationImpl(ConfiguratorImpl configurator) {
 		this.configurator=configurator;				
 	}
-	public boolean isValid() {
-		checker=configurator.getCompatibilityChecker();
-		for(Part part: config) {
-			Set<PartType> listIncompatibilities = checker.getIncompatibilities(part.getType());
-			if(!listIncompatibilities.isEmpty()){
-				for(Part p: config) {
-					if(p.getType().getName()!=part.getType().getName()) {
-						if(listIncompatibilities.contains(p.getType())) {
-							return false;
-						}
-					}
-				}
-			}
-			Set<PartType> listRequierements = checker.getRequirements(part.getType());
-			if(!listRequierements.isEmpty()) {
-				for(PartType p: listRequierements) {
-					boolean present = false;
-					for(Part p2:config) {
-						if(p2.getType().getName() != part.getType().getName()) {
-							if(p2.getType().getName() == p.getName()) {
-								present = true;
-							}
-						}
-					}
-					if (!present) {
-						return false;
-					}
-				}
-			}
-		}
-		return true;
-	}
+    public boolean isValid() {
+    	checker=configurator.getCompatibilityChecker();
+    	for(Part part: config) {
+    		Set<PartType> listIncompatibilities = checker.getIncompatibilities(part.getType());
+    		if(!listIncompatibilities.isEmpty()){
+    			for(Part p: config) {
+    				if(p.getType().getName()!=part.getType().getName()) {
+    					if(listIncompatibilities.contains(p.getType())) {
+    						return false;
+    					}
+    				}
+    			}
+    		}
+    		Set<PartType> listRequierements = checker.getRequirements(part.getType());
+    		if(!listRequierements.isEmpty()) {
+    			for(PartType p: listRequierements) {
+    				boolean present = false;
+    				for(Part p2:config) {
+    					if(p2.getType().getName() != part.getType().getName()) {
+    						if(p2.getType().getName() == p.getName()) {
+    							present = true;
+    						}
+    					}
+    				}
+    				if (!present) {
+    					return false;
+    				}
+    			}
+    		}
+    	}
+    	return true;
+    }
 
     
     public boolean isComplete() {
@@ -77,15 +78,26 @@ public class ConfigurationImpl implements Configuration {
     	return null;
     }
 
-    public void unselectPartType(Category categoryToClear) {
-    	Set<Part> configRes = config;
-    	for(Part piece: configRes) {
-    		if (piece.getCategory().equals(categoryToClear)){
-    			configRes.remove(piece);
-    		}
-    	}
-    	config=configRes;
+    
+    public void unselectPartType(Category categoryToClear) {    
+        if(categoryToClear != null) {
+            ArrayList<Part> arrayPart = new ArrayList<>(config);
+            int i=0;
+            boolean breakBool = false;
+            while(i<arrayPart.size() && breakBool == false) {
+                if (arrayPart.get(i).getCategory().equals(categoryToClear)){    
+                    arrayPart.remove(i);
+                    breakBool=true;
+                }
+                i++;
+            }
+            config = new HashSet<>(arrayPart);
+        }
+        else {
+            throw new IllegalArgumentException("Erreur, le partType voulant être enlevé de la config ne peut pas etre null");
+        }
     }
+
     @Override
     public void clear() {
     	config.clear();
@@ -101,7 +113,6 @@ public class ConfigurationImpl implements Configuration {
     		htmlCode += "<title> Your Configuration </title>\n";
     		htmlCode += "</head>\n";
     		htmlCode += "<body>\n";
-    		htmlCode += "\n";
 
     		for (Part p:config) {
     			String category = p.getType().getCategory().getName();
@@ -124,10 +135,8 @@ public class ConfigurationImpl implements Configuration {
     		}
     		htmlCode += "<h2>Total Price: " + getPrice() + "€</h1>\n";
     		
-
-    		htmlCode += "\n";
-    		htmlCode += "</body> \n";
-    		htmlCode += "</html> \n";
+    		htmlCode += "</body>\n";
+    		htmlCode += "</html>\n";
     	}
     	return htmlCode;
     }
@@ -136,7 +145,7 @@ public class ConfigurationImpl implements Configuration {
     
     
     public double getPrice() {
-    	double res = 0;
+    	double res = 0.0;
     	if(isValid()) {
     		for(Part p:config) {
     			double price = Double.parseDouble(p.getProperty("price").get());
