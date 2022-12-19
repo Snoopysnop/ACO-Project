@@ -1,6 +1,7 @@
 package test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -185,12 +186,40 @@ ConfiguratorImpl configurator;
 		configuration.selectPart(partTypeExteriorXC);
 		configuration.selectPart(partTypeInteriorIN);
 		
-		
+	
 		configuration.chooseColor("PURPLE");
 		
 		
 	}
 	
+  	
+  	@Test
+	@DisplayName("test pour verifier qu'on ajoute bien une piece dans la configuration")
+  	public void selectPart1() {
+  		configuration.clear();
+  		configuration.selectPart(partTypeEngineEG100);
+  		Set<Part> parts = new HashSet<>();
+  		PartImpl p = partTypeEngineEG100.newInstance();
+  		p.setType(partTypeEngineEG100);
+  		parts.add(p);
+
+  		for(Part p2:parts) {
+  			System.out.println("test selectPart1" );
+  			System.out.println(p2.getType().getName());
+  		}
+  		for(Part p2:configuration.getSelectedParts()){
+  			System.out.println(p2.getType().getName());
+  		}
+  	}	
+  	
+  	@Test
+	@DisplayName("test pour verifier qu'on ne peut pas ajouter une piece d'une certaine categorie alors qu'une piece de cette categorie existe deja dans la configuration")
+  	public void selectPart2() {
+  		configuration.clear();
+  		configuration.selectPart(partTypeEngineEG100);
+  		assertThrows(IllegalArgumentException.class, () -> configuration.selectPart(partTypeEngineEG133));
+  	}
+  	
 	@Test
 	@DisplayName("test sur le prix d'une configuration valide et complete puis le prix de la config apres avoir enleve une piece")
 	public void getPrice() {
@@ -208,8 +237,8 @@ ConfiguratorImpl configurator;
 	
 	
 	@Test
-	@DisplayName("isValid pour une configuration incorrecte : EG100 incompatible XM")
-	public void isValid2() {
+	@DisplayName("isValid pour une configuration incorre	cte : EG100 incompatible XM")
+	public void isValid2() {	
 		configuration.clear();
 		
 		configuration.selectPart(partTypeEngineEG100);
@@ -250,7 +279,7 @@ ConfiguratorImpl configurator;
 	@Test
 	@DisplayName("print le fichier html pour pouvoir le tester directement en le mettant dans un fichier html et en l'affichant dans un navigateur")
 	public void printHtmlConfiguration() {
-		System.out.print(configuration.printHtmlConfiguration());
+	//	System.out.print(configuration.printHtmlConfiguration());
 	}
 	
 	@Test

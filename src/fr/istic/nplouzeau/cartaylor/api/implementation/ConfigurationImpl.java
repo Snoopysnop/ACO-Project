@@ -69,7 +69,6 @@ public class ConfigurationImpl implements Configuration {
     		PartImpl part = chosenPart.newInstance();
     		if(!getSelectionForCategory(chosenPart.getCategory()).isPresent()) {
     			part.setType(chosenPart);
-
     			config.add(part);
     		}
     		else {
