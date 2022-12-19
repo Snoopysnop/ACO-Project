@@ -1,4 +1,39 @@
-tests V2:
+Tests de la v1 :
+
+
+
+A propos du coverage :
+
+Pour les tests de la v1, on a un coverage de 94,7%.
+Dans ce pourcentage, toutes les fonctions implementées sont testées à 100%.
+Les % manquants sont sur les assertThrows qui passent mais ne sont pas comptés dans le coverage.
+
+
+
+
+A propos des tests :
+
+- Au total 49 tests pour un total de 61 assert.
+- On a privilégié de faire plusieurs assert parfois quand on testait quelquechose de très semblable plutôt que de refaire de nouveaux tests semblables aux précédents.
+- Les tests ont chacun une description détaillant ce qu'ils testent.
+
+
+	Classes CategoryImpl et PartTypeImpl : 
+		- Pas beaucoup de test car peu de méthodes donc un survol global de ces classes qui servent surtout à créer des "PartType" et des 			  "Catégories".
+
+	Classe ConfiguratorImpl :
+		- Pas mal de test sur getCategories() et getVariants() en prenant soin de verifier chaque cas un peu spécial.
+		- Aucun test sur getConfiguration() et getCompatibilityChecker() car ils seront appelés dans la classe ConfigurationImpl et il s'agit 			surtout de "getter" donc pas très pertinant à tester.
+	
+	Classe ConfigurationImpl : 
+		- Choix d'implémentation pour le selectPart() de rendre une erreur si l'utilisateur souhaite ajouter une autre pièce de même catégorie 			 dans la config. Il faut d'abord l'enlever puis en ajouter une.
+		- Toutes les méthodes sont testées avec chaque cas testé une fois aumoins.
+	
+	Classe CompatibilityManagerImpl : 
+		- Toutes les méthodes sont testées avec chaque cas testé une fois aumoins.
+
+
+Tests de la v2 :
 
 getPrice: Nous avons fait un test qui donne le prix d'une configuration valide et complète et aussi sur cette même configuration mais en enlevant une pièce
 	 pour vérifier si le prix change bien en fonction des pièces présentes dans la configuration.
@@ -22,6 +57,4 @@ selectPart: Nous devons vérifier si nous ajoutons bien la pièce en question. C
 
 
 
-Pour ce qui est du coverage, celui des tests de la v2 est plus bas que celui pour la v1 car nous ne testons pas toutes les classes de toutes les pièces ce qui reduit le score de
-coverage. En outre, il est inutile de tester toutes les fonctions testées dans la v1 puisque nous ne modifions que la classe ConfigurationImpl, c'est donc sur 
-cette classe que la plupart des tests ont lieu.
+Pour ce qui est du coverage, celui des tests de la v2 est plus bas que celui pour la v1 car nous ne testons pas toutes les classes de toutes les pièces ce qui reduit le score de coverage. En outre, il est inutile de tester toutes les fonctions testées dans la v1 puisque nous ne modifions que la classe ConfigurationImpl, c'est donc sur cette classe que la plupart des tests ont lieu.
