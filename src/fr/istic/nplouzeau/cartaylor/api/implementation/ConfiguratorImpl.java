@@ -13,36 +13,39 @@ public class ConfiguratorImpl implements Configurator{
 
 	private ConfigurationImpl config;
 	private CompatibilityManagerImpl manager;
-		
-	public ConfiguratorImpl(Set<Category> categories,Set<PartType> partTypes) {
+
+	public ConfiguratorImpl(Set<Category> categories,Set<PartType> partTypes, CompatibilityManagerImpl manager ) {
 		this.categories=categories;
 		this.partTypes=partTypes;
-		manager = new CompatibilityManagerImpl();
-		config = new ConfigurationImpl(manager);
-	
-	
+		this.manager=manager;
+		config = new ConfigurationImpl(this);
 	}
-	
-    public Set<Category> getCategories() {
-    	return Collections.unmodifiableSet(categories);
-    }
 
-    public Set<PartType> getVariants(Category category){
-    	Set<PartType> res = new HashSet<PartType>();
-    	for(PartType p : partTypes) {
-    		if(p.getCategory().equals(category))res.add(p);
-    	}
-    	return Collections.unmodifiableSet(res);
-    }
+	public Set<Category> getCategories() {
+		return Collections.unmodifiableSet(categories);
+	}
 
-    public ConfigurationImpl getConfiguration() {
-    	return config;
-    }
+	public Set<PartType> getVariants(Category category){
+		if(category != null) {
+			Set<PartType> res = new HashSet<PartType>();
+			for(PartType p : partTypes) {
+				if(p.getCategory().equals(category)) {
+					res.add(p);
+				}
+			}
+			return Collections.unmodifiableSet(res);
+		}
+		else {
+			throw new IllegalArgumentException("Erreur, la categorie mise en parametre ne peut pas etre null");
+		}
+	}
+
+	public ConfigurationImpl getConfiguration() {
+		return config;
+	}
 
 	@Override
 	public CompatibilityChecker getCompatibilityChecker() {
-			return manager;
-	}
-    
-    
+		return manager;
+	} 
 }
