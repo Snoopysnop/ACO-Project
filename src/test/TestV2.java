@@ -263,4 +263,10 @@ ConfiguratorImpl configurator;
 		assertEquals(s,partTypeEngineEG100.getName());
 	}
 	
+	@Test
+  	public void changeColor() {
+		configuration.chooseColor("BLUE");
+		String color = configuration.getSelectionForCategory(categoryExterior).get().getProperty("color").get();
+		assertEquals(color,"BLUE");
+  	}
 }
