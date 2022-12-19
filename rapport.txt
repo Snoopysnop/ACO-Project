@@ -1,0 +1,27 @@
+tests V2:
+
+getPrice: Nous avons fait un test qui donne le prix d'une configuration valide et complète et aussi sur cette même configuration mais en enlevant une pièce
+	 pour vérifier si le prix change bien en fonction des pièces présentes dans la configuration.
+
+isValid: Le test avec le plus de variante car il faut tester les incompatibilités et les requirements entre les pièces de la configuration.
+
+printHtmlConfiguration: Nous voulions faire un assertEquals avec ce que nous donne la fonction mais le resultat n'était pas exactement le même,
+			même si le fichier html produit était correct. Nous avons donc print ce que nous rends la fonction dans la console et on le copie colle
+			dans un fichier html pour pouvoir vérifier l'affichage sur un navigateur.
+
+getSelectionForCategory: Nous verifions que nous obtenons bien la pièce avec la categorie spécifiée en paramètre.
+
+
+changeColor: Verification de la mise à jour de la couleur pour la pièce d'extérieure.
+
+
+selectPart: Nous devons vérifier si nous ajoutons bien la pièce en question. Cependant, lors de la comparaison entre la configuration et l'ensemble de Part créer
+	    pour ce test, nous obtenons bien le même ensemble mais les deux élements ont des références différentes, ce qui fausse le resultat de l'assertEquals.
+	    Nous parcourons donc les deux ensembles en affichant chaque pièce présentes pour faire le test "à la main".
+
+
+
+
+Pour ce qui est du coverage, celui des tests de la v2 est plus bas que celui pour la v1 car nous ne testons pas toutes les classes de toutes les pièces ce qui reduit le score de
+coverage. En outre, il est inutile de tester toutes les fonctions testées dans la v1 puisque nous ne modifions que la classe ConfigurationImpl, c'est donc sur 
+cette classe que la plupart des tests ont lieu.
